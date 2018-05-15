@@ -1,2 +1,2 @@
 # YetAnotherSudokuGenerator
-Produce unambiguous sudoku board
+Should produce unambiguous sudokus
