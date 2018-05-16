@@ -4,7 +4,7 @@ import java.util.Arrays;
 public class Board {
 
 	private Cell[][] board = new Cell[9][9] ;
-    static final Cell EMPTY_CELL =  new Cell();
+    static final int EMPTY_CELL = 0;
     static final int BOARD_SIZE = 9;
     static final int REGION_SIZE = 3;
     private char[] line;
@@ -15,24 +15,26 @@ public class Board {
 	           board[i][j] = new Cell(i,j);
        }
 	}
-@Override
 
+public Cell getCell(int row, int col){
+	    return this.board[row][col];
+}
+
+    @Override
 public  String  toString (){
 		// Exact size of the generated string for the buffer (values + spacers)
 		final int size = (BOARD_SIZE*2+1+((REGION_SIZE+1)*2))*(BOARD_SIZE+REGION_SIZE+1);
 		final String verticalSpace = " |";
-		// A StringBuilder is absolutely needed here
-		// use of String concatenation (+) would have really bad performance
 		final StringBuilder buffer = new StringBuilder(size);
 		// Row/Column traversal
-		for (int a=0; a < BOARD_SIZE; a++) {
-			Cell[] row = board[a];
-			if (a % REGION_SIZE == 0) {
+		for (int i=0; i < BOARD_SIZE; i++) {
+			Cell[] row = board[i];
+			if (i % REGION_SIZE == 0) {
 				appendLine(buffer);
 			}
-			for (int b=0; b < BOARD_SIZE; b++) {
-				Cell cell = row[b];
-				if (b % REGION_SIZE == 0) {
+			for (int j = 0; j < BOARD_SIZE; j++) {
+				Cell cell = row[j];
+				if (j % REGION_SIZE == 0) {
 					buffer.append(verticalSpace);
 				}
 				appendValue(buffer, cell);
@@ -45,11 +47,10 @@ public  String  toString (){
 }
 private void appendValue(StringBuilder buffer, Cell cell) {
 		buffer.append(' ');
-    // TODO: 16/05/18 comparer avec cell.value faire un getter ?
-		if (cell != EMPTY_CELL) {
-			buffer.append(cell);
+		if (cell.getValue() != EMPTY_CELL) {
+			buffer.append(cell.getValue());
 		} else {
-			buffer.append('_');
+			buffer.append('.');
 		}
 	}
 	/**
@@ -58,7 +59,7 @@ private void appendValue(StringBuilder buffer, Cell cell) {
 	private void appendLine(StringBuilder buffer) {
 		// Only create the line once
 		if (line == null) {
-		  line = new char[BOARD_SIZE*2+((REGION_SIZE+1)*2)];
+		  line = new char[1+BOARD_SIZE*2];
 		  Arrays.fill(line, '-');
 		  //first char as space
 		  line[0] = ' ';
@@ -69,6 +70,7 @@ private void appendValue(StringBuilder buffer, Cell cell) {
     public static void main(String[] args) {
 
 	    Board myBoard = new Board();
+        myBoard.getCell(1,5).setValue(8);
 	    System.out.print(myBoard);
 
 	}
