@@ -25,7 +25,6 @@ public Cell getCell(int row, int col){
 
     }
 
-    // TODO: 16/05/18  
 /* This method return true if value is'nt  in  the row, the column and the region
 * It return false if the value is in the row, the column, the region or if the Cell is already  full*/
     public boolean isValid(int row, int col, int value){
@@ -43,6 +42,16 @@ public Cell getCell(int row, int col){
             }
         }
 //        Checking the region
+        int rowStart = row /REGION_SIZE * REGION_SIZE;
+        int colStart = col /REGION_SIZE * REGION_SIZE;
+
+        for (int i =rowStart; i <rowStart + REGION_SIZE && i < BOARD_SIZE ; i++){
+            for (int j = colStart ; j < colStart + REGION_SIZE  && j < BOARD_SIZE ; j++){
+               if (board[i][j].getValue() == value){
+                   res = false;
+               }
+            }
+        }
 //        Checking the emptiness of the Cell
         if (board[row][col].getValue() != 0){
             res = false;
@@ -107,7 +116,7 @@ private void appendValue(StringBuilder buffer, Cell cell) {
         System.out.printf("Should be false Board.isValid(2,4,8) = %b%n",myBoard.isValid(2,4,8));
         System.out.printf("Should be false Board.isValid(1,5,6) = %b%n",myBoard.isValid(1,5,6));
         System.out.printf("Should be true Board.isValid(7,4,8) = %b%n",myBoard.isValid(7,4,8));
-        System.out.printf("Should be true Board.isValid(2,4,8) = %b%n",myBoard.isValid(2,4,8));
+        System.out.printf("Should be true Board.isValid(4,4,8) = %b%n",myBoard.isValid(4,4,8));
         System.out.printf("Should be true Board.isValid(1,2,6) = %b%n",myBoard.isValid(1,2,6));
         System.out.printf("Should be true Board.isValid(6,5,6) = %b%n",myBoard.isValid(6,5,6));
         System.out.printf("Should be true Board.isValid(2,4,6) = %b%n",myBoard.isValid(2,4,6));
