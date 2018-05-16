@@ -54,19 +54,18 @@ public Cell getCell(int row, int col){
 return res;
     }
     /* This method  generate a valid full sudoku*/
-// TODO: 16/05/18 Pas besoin de Recursion
+// TODO: 16/05/18 En fait récursion obligatoire
     public void fillBoard() {
         int value;
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
                 do {
                     value =  (int )(Math.random() * 9+1);
-                }while (!isValid(i,j,value,board ));
+                }while (!this.isValid(i,j,value));
 
-
+                this.getCell(i,j).setValue(value);
             }
         }
-
     }
 
     @Override
@@ -117,7 +116,7 @@ private void appendValue(StringBuilder buffer, Cell cell) {
     public static void main(String[] args) {
 
 	    Board myBoard = new Board();
-        myBoard.getCell(1,5).setValue(8);
+//        myBoard.getCell(1,5).setValue(8);
 	    System.out.print(myBoard);
         System.out.printf("Should be false Board.isValid(1,2,8) = %b%n",myBoard.isValid(1,2,8));
         System.out.printf("Should be false Board.isValid(6,5,8) = %b%n",myBoard.isValid(6,5,8));
@@ -128,6 +127,9 @@ private void appendValue(StringBuilder buffer, Cell cell) {
         System.out.printf("Should be true Board.isValid(1,2,6) = %b%n",myBoard.isValid(1,2,6));
         System.out.printf("Should be true Board.isValid(6,5,6) = %b%n",myBoard.isValid(6,5,6));
         System.out.printf("Should be true Board.isValid(2,4,6) = %b%n",myBoard.isValid(2,4,6));
+
+        myBoard.fillBoard();
+        System.out.print(myBoard);
 	}
 
 }
