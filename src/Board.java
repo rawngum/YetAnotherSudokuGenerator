@@ -20,6 +20,9 @@ public Cell getCell(int row, int col){
 	    return this.board[row][col];
 }
 
+    public Cell[][] getBoard() {
+        return board;
+    }
 
 /* This method return true if value is'nt  in  the row, the column and the region
 * It return false if the value is in the row, the column, the region or if the Cell is already  full*/
@@ -48,22 +51,21 @@ public Cell getCell(int row, int col){
                }
             }
         }
-//        Checking the emptiness of the Cell
-        if (board[row][col].getValue() != 0){
-            res = false;
-        }
 return res;
-    }
-
-    // TODO: 16/05/18  
-    /* This method reset the board*/
-    public void  reset(){
-        for(Cell[] row :)
     }
     /* This method  generate a valid full sudoku*/
 // TODO: 16/05/18 Pas besoin de Recursion
     public void fillBoard() {
-        this.board.reset();
+        int value;
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                do {
+                    value =  (int )(Math.random() * 9+1);
+                }while (!isValid(i,j,value,board ));
+
+
+            }
+        }
 
     }
 
@@ -100,9 +102,7 @@ private void appendValue(StringBuilder buffer, Cell cell) {
 			buffer.append('.');
 		}
 	}
-	/**
-	 * Append a line (separator between region)
-	 */
+
 	private void appendLine(StringBuilder buffer) {
 		// Only create the line once
 		if (line == null) {
