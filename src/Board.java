@@ -19,6 +19,36 @@ public class Board {
 public Cell getCell(int row, int col){
 	    return this.board[row][col];
 }
+/* This method  generate a valid full sudoku*/
+// TODO: 16/05/18 Pas besoin de Recursion 
+    public void fillBoard() {
+
+    }
+
+    // TODO: 16/05/18  
+/* This method return true if value is'nt  in  the row, the column and the region
+* It return false if the value is in the row, the column, the region or if the Cell is already  full*/
+    public boolean isValid(int row, int col, int value){
+        Boolean res=true;
+//        Checking the row
+        for (int i = 0 ; i < BOARD_SIZE ; i++){
+            if (board[i][col].getValue() == value){
+                res = false;
+            }
+        }
+//        Checking the column
+        for (int i = 0; i < BOARD_SIZE ; i++){
+            if (board[row][i].getValue() == value){
+                res = false;
+            }
+        }
+//        Checking the region
+//        Checking the emptiness of the Cell
+        if (board[row][col].getValue() != 0){
+            res = false;
+        }
+return res;
+    }
 
     @Override
 public  String  toString (){
@@ -72,7 +102,15 @@ private void appendValue(StringBuilder buffer, Cell cell) {
 	    Board myBoard = new Board();
         myBoard.getCell(1,5).setValue(8);
 	    System.out.print(myBoard);
-
+        System.out.printf("Should be false Board.isValid(1,2,8) = %b%n",myBoard.isValid(1,2,8));
+        System.out.printf("Should be false Board.isValid(6,5,8) = %b%n",myBoard.isValid(6,5,8));
+        System.out.printf("Should be false Board.isValid(2,4,8) = %b%n",myBoard.isValid(2,4,8));
+        System.out.printf("Should be false Board.isValid(1,5,6) = %b%n",myBoard.isValid(1,5,6));
+        System.out.printf("Should be true Board.isValid(7,4,8) = %b%n",myBoard.isValid(7,4,8));
+        System.out.printf("Should be true Board.isValid(2,4,8) = %b%n",myBoard.isValid(2,4,8));
+        System.out.printf("Should be true Board.isValid(1,2,6) = %b%n",myBoard.isValid(1,2,6));
+        System.out.printf("Should be true Board.isValid(6,5,6) = %b%n",myBoard.isValid(6,5,6));
+        System.out.printf("Should be true Board.isValid(2,4,6) = %b%n",myBoard.isValid(2,4,6));
 	}
 
 }
