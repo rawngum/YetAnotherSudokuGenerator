@@ -19,11 +19,7 @@ public class Board {
 public Cell getCell(int row, int col){
 	    return this.board[row][col];
 }
-/* This method  generate a valid full sudoku*/
-// TODO: 16/05/18 Pas besoin de Recursion 
-    public void fillBoard() {
 
-    }
 
 /* This method return true if value is'nt  in  the row, the column and the region
 * It return false if the value is in the row, the column, the region or if the Cell is already  full*/
@@ -57,6 +53,18 @@ public Cell getCell(int row, int col){
             res = false;
         }
 return res;
+    }
+
+    // TODO: 16/05/18  
+    /* This method reset the board*/
+    public void  reset(){
+        for(Cell[] row :)
+    }
+    /* This method  generate a valid full sudoku*/
+// TODO: 16/05/18 Pas besoin de Recursion
+    public void fillBoard() {
+        this.board.reset();
+
     }
 
     @Override
