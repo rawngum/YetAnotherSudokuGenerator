@@ -59,7 +59,7 @@ private void appendValue(StringBuilder buffer, Cell cell) {
 	private void appendLine(StringBuilder buffer) {
 		// Only create the line once
 		if (line == null) {
-		  line = new char[1+BOARD_SIZE*2];
+		  line = new char[BOARD_SIZE*2+((REGION_SIZE+1)*2)];
 		  Arrays.fill(line, '-');
 		  //first char as space
 		  line[0] = ' ';
