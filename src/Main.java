@@ -5,6 +5,7 @@ public class Main {
 		Board board = Board(); 
 		board.generate(); 
 	    board.print();
+	    System.out.print("kjkj");
 	}
 
 }
