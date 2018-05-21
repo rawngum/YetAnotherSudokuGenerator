@@ -20,11 +20,18 @@ public class Board {
 //	}
     public  Board(){
         Cell nextCell = null;
+        Cell prevCell = null;
         for (int i = board.length -1 ; i >=0 ; i--){
             for (int j = board[0].length  -1; j >= 0 ; j--) {
                 board[i][j] = new Cell(i,j);
                 board[i][j].setNextCell(nextCell);
                 nextCell = board[i][j];
+            }
+        }
+        for (int i = 0  ;  i<board.length ; i++) {
+            for (int j = 0 ; j < board[0].length ; j++){
+                board[i][j].setPrevCell(prevCell);
+                prevCell = board[i][j];
             }
         }
     }
@@ -82,12 +89,13 @@ return res;
 * Return the reference of the candidateList*/
     public  LinkedList<Integer> candidate(Cell cell){
         LinkedList<Integer> candidate = cell.getCandidateList();
+        candidate.clear();
         for (int i = 1; i < 10; i++) {
-                if (this.isValid(cell.getRow(), cell.getCol(),i)){
+                if (this.isValid(cell.getRow(), cell.getCol(),i) &&  !cell.getVisited().contains(i)){
                     candidate.add(i);
                 }
-            Collections.shuffle(candidate);
         }
+        Collections.shuffle(candidate);
         return  candidate;
     }
     /* This method  generate a valid full sudoku*/
@@ -108,24 +116,47 @@ return res;
 //        }
 //    }
 
-    public Boolean fillBoard(Cell cell){
+//    public Boolean fillBoard(Cell cell){
+//
+//        LinkedList<Integer> tmpCandidateList = this.candidate(cell);
+//
+//        if (tmpCandidateList.isEmpty()) { // No more candidate --> Backtracking
+//            return fillBoard(cell.getPrevCell());
+//        }
+//        if(cell.getNextCell() == null){ // It has passed through all cells
+//            return  true;
+//        }
+//        cell.setValue(tmpCandidateList.pop());
+//        if (this.isValid(cell.getRow(), cell.getCol(),cell.getValue()){
+//            return fillBoard(cell.getNextCell());
+//        }else {
+//            cell.setValue(0);
+//            return  fillBoard(cell.getPrevCell());}
+//        return  false;
+//    }
+//    }
+public Boolean fillBoard(Cell cell){
 
-            LinkedList<Integer> tmpCandidateList = this.candidate(cell);
+    LinkedList<Integer> tmpCandidateList = this.candidate(cell);
+    for (int element :
+            tmpCandidateList) {
+            cell.setValue(element);
+            cell.setVisited(element);
+        if(cell.getNextCell() == null){
+            return true;
+        }
+            return fillBoard(cell.getNextCell());
+        }
 
-            if (tmpCandidateList.isEmpty()) { // No more candidate --> Backtracking
-                cell.setValue(0);
-                return false;
-
-            } else {
-                if(cell.getNextCell() == null){ // It has passed through all cells
-                    return  true;
-                } else {
-                    cell.setValue(tmpCandidateList.pop());
-                    return fillBoard(cell.getNextCell());
-                }
-            }
-
+    if(tmpCandidateList.isEmpty()){
+        cell.getVisited().clear();
+        cell.setValue(0);
+        return  fillBoard(cell.getPrevCell());
     }
+
+  return  false;
+}
+
     @Override
 public  String  toString (){
 		// Exact size of the generated string for the buffer (values + spacers)
@@ -198,7 +229,7 @@ private void appendValue(StringBuilder buffer, Cell cell) {
             }
         }
         myBoard.fillBoard(myBoard.getCell(0,0));
-        System.out.print(myBoard);
+        System.out.println(myBoard);
 
 	}
 
