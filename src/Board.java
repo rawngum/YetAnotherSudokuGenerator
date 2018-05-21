@@ -1,5 +1,8 @@
 import  java.lang.StringBuilder;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import  java.util.Collection;
 
 public class Board {
 
@@ -9,20 +12,30 @@ public class Board {
     static final int REGION_SIZE = 3;
     private char[] line;
 
-	public Board() {
-	   for (int i = 0  ;  i<board.length ; i++) {
-	       for (int j = 0 ; j < board[0].length ; j++)
-	           board[i][j] = new Cell(i,j);
-       }
-	}
+//	public Board() {
+//	   for (int i = 0  ;  i<board.length ; i++) {
+//	       for (int j = 0 ; j < board[0].length ; j++)
+//	           board[i][j] = new Cell(i,j);
+//       }
+//	}
+    public  Board(){
+        Cell nextCell = null;
+        for (int i = board.length -1 ; i >=0 ; i--){
+            for (int j = board[0].length  -1; j >= 0 ; j--) {
+                board[i][j] = new Cell(i,j);
+                board[i][j].setNextCell(nextCell);
+                nextCell = board[i][j];
+            }
+        }
+    }
 
 public Cell getCell(int row, int col){
 	    return this.board[row][col];
 }
 
-    public Cell[][] getBoard() {
+public Cell[][] getBoard() {
         return board;
-    }
+}
 
 /* This method return true if value is'nt  in  the row, the column and the region
 * It return false if the value is in the row, the column, the region or if the Cell is already  full*/
@@ -51,6 +64,10 @@ public Cell getCell(int row, int col){
                }
             }
         }
+//        Checking the cell
+        if (board[row][col].getValue() == value){
+            res = false;
+        }
 return res;
     }
 
@@ -61,22 +78,54 @@ return res;
             }
         }
     }
-    /* This method  generate a valid full sudoku*/
-// TODO: 16/05/18 En fait récursion obligatoire
-    public void fillBoard() {
-        int value;
-        this.resetBoard();
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                do {
-                    value =  (int )(Math.random() * 9+1);
-                }while (!this.isValid(i,j,value));
-
-                this.getCell(i,j).setValue(value);
-            }
+/*This method generate a list of  valid candidate to the sudoku board.
+* Return the reference of the candidateList*/
+    public  LinkedList<Integer> candidate(Cell cell){
+        LinkedList<Integer> candidate = cell.getCandidateList();
+        for (int i = 1; i < 9; i++) {
+                if (this.isValid(cell.getRow(), cell.getCol(),i)){
+                    candidate.add(i);
+                }
+            Collections.shuffle(candidate);
         }
+        return  candidate;
     }
+    /* This method  generate a valid full sudoku*/
+//// TODO: 16/05/18 En fait récursion obligatoire
+//    public void fillBoard() {
+//        int value;
+//        LinkedList<Integer> tmpCandidateList;
+//        this.resetBoard();
+//        for (int i = 0; i < BOARD_SIZE; i++) {
+//            for (int j = 0; j < BOARD_SIZE; j++) {
+//                tmpCandidateList = this.candidate(i,j);
+//                do {
+//                    value =  tmpCandidateList.pop();
+//                }while (!this.isValid(i,j,value )  tmpCandidateList.isEmpty());
+//
+//                this.getCell(i,j).setValue(value);
+//            }
+//        }
+//    }
 
+    public Boolean fillBoard(Cell cell){
+
+            LinkedList<Integer> tmpCandidateList = this.candidate(cell);
+
+            if (tmpCandidateList.isEmpty()) { // No more candidate --> Backtracking
+                cell.setValue(0);
+                return false;
+
+            } else {
+                if(cell.getNextCell() == null){ // It has passed through all cells
+                    return  true;
+                } else {
+                    cell.setValue(tmpCandidateList.pop());
+                    return fillBoard(cell.getNextCell());
+                }
+            }
+
+    }
     @Override
 public  String  toString (){
 		// Exact size of the generated string for the buffer (values + spacers)
@@ -136,9 +185,21 @@ private void appendValue(StringBuilder buffer, Cell cell) {
         System.out.printf("Should be true Board.isValid(1,2,6) = %b%n",myBoard.isValid(1,2,6));
         System.out.printf("Should be true Board.isValid(6,5,6) = %b%n",myBoard.isValid(6,5,6));
         System.out.printf("Should be true Board.isValid(2,4,6) = %b%n",myBoard.isValid(2,4,6));
-        myBoard.resetBoard();
+//        myBoard.resetBoard();
 //        myBoard.fillBoard();
+//        myBoard.candidate(1,1);
+//        LinkedList<Integer> candidate = myBoard.getCell(1,1).getCandidateList();
+//        for (int element : candidate){
+//            System.out.println(element);
+//        }
+        for(Cell[] row : myBoard.getBoard()){
+            for(Cell element : row){
+                System.out.println(element);
+            }
+        }
+        myBoard.fillBoard(myBoard.getCell(0,0));
         System.out.print(myBoard);
+
 	}
 
 }
