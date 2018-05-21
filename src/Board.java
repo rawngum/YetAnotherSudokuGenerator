@@ -1,8 +1,8 @@
+import javax.xml.bind.Element;
 import  java.lang.StringBuilder;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
-import  java.util.Collection;
 
 public class Board {
 
@@ -81,6 +81,8 @@ return res;
     public  void  resetBoard(){
         for(Cell[] row : this.board){
             for(Cell element : row){
+
+                element.getVisited().clear();
                 element.setValue(0);
             }
         }
@@ -98,44 +100,9 @@ return res;
         Collections.shuffle(candidate);
         return  candidate;
     }
-    /* This method  generate a valid full sudoku*/
-//// TODO: 16/05/18 En fait récursion obligatoire
-//    public void fillBoard() {
-//        int value;
-//        LinkedList<Integer> tmpCandidateList;
-//        this.resetBoard();
-//        for (int i = 0; i < BOARD_SIZE; i++) {
-//            for (int j = 0; j < BOARD_SIZE; j++) {
-//                tmpCandidateList = this.candidate(i,j);
-//                do {
-//                    value =  tmpCandidateList.pop();
-//                }while (!this.isValid(i,j,value )  tmpCandidateList.isEmpty());
-//
-//                this.getCell(i,j).setValue(value);
-//            }
-//        }
-//    }
+    /* This method  generate a valid full sudoku This should not be used in the main */
 
-//    public Boolean fillBoard(Cell cell){
-//
-//        LinkedList<Integer> tmpCandidateList = this.candidate(cell);
-//
-//        if (tmpCandidateList.isEmpty()) { // No more candidate --> Backtracking
-//            return fillBoard(cell.getPrevCell());
-//        }
-//        if(cell.getNextCell() == null){ // It has passed through all cells
-//            return  true;
-//        }
-//        cell.setValue(tmpCandidateList.pop());
-//        if (this.isValid(cell.getRow(), cell.getCol(),cell.getValue()){
-//            return fillBoard(cell.getNextCell());
-//        }else {
-//            cell.setValue(0);
-//            return  fillBoard(cell.getPrevCell());}
-//        return  false;
-//    }
-//    }
-public Boolean fillBoard(Cell cell){
+private Boolean fill(Cell cell){
 
     LinkedList<Integer> tmpCandidateList = this.candidate(cell);
     for (int element :
@@ -145,17 +112,24 @@ public Boolean fillBoard(Cell cell){
         if(cell.getNextCell() == null){
             return true;
         }
-            return fillBoard(cell.getNextCell());
+            return fill(cell.getNextCell());
         }
 
-    if(tmpCandidateList.isEmpty()){
+    if(tmpCandidateList.isEmpty()){ //Backtracking
         cell.getVisited().clear();
         cell.setValue(0);
-        return  fillBoard(cell.getPrevCell());
+        return  fill(cell.getPrevCell());
     }
 
   return  false;
 }
+
+// This method mask the recursive call annd reset the board before the call
+    public  Boolean fillBoard(){
+    this.resetBoard();
+    return  this.fill(this.getCell(0,0));
+    }
+
 
     @Override
 public  String  toString (){
@@ -223,13 +197,11 @@ private void appendValue(StringBuilder buffer, Cell cell) {
 //        for (int element : candidate){
 //            System.out.println(element);
 //        }
-        for(Cell[] row : myBoard.getBoard()){
-            for(Cell element : row){
-                System.out.println(element);
-            }
+        for (int i = 0; i < 109; i++) {
+
+            myBoard.fillBoard();
+            System.out.println(myBoard);
         }
-        myBoard.fillBoard(myBoard.getCell(0,0));
-        System.out.println(myBoard);
 
 	}
 
