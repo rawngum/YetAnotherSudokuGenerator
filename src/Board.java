@@ -12,12 +12,7 @@ public class Board {
     static final int REGION_SIZE = 3;
     private char[] line;
 
-//	public Board() {
-//	   for (int i = 0  ;  i<board.length ; i++) {
-//	       for (int j = 0 ; j < board[0].length ; j++)
-//	           board[i][j] = new Cell(i,j);
-//       }
-//	}
+
     public  Board(){
         Cell nextCell = null;
         Cell prevCell = null;
@@ -197,12 +192,15 @@ private void appendValue(StringBuilder buffer, Cell cell) {
 //        for (int element : candidate){
 //            System.out.println(element);
 //        }
-        for (int i = 0; i < 109; i++) {
+        long startTime = System.currentTimeMillis();
+        for (int i = 0; i < 1000000; i++) {
 
             myBoard.fillBoard();
             System.out.println(myBoard);
         }
-
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        System.out.println(elapsedTime);
 	}
 
 }
