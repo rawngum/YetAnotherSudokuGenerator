@@ -73,11 +73,16 @@ public Cell[][] getBoard() {
 return res;
     }
 
-    public  void  resetBoard(){
+    public  void  resetBoardVisited(){
         for(Cell[] row : this.board){
             for(Cell element : row){
-
                 element.getVisited().clear();
+            }
+        }
+    }
+    public  void  resetBoardValue(){
+        for(Cell[] row : this.board){
+            for(Cell element : row){
                 element.setValue(0);
             }
         }
@@ -121,8 +126,10 @@ private Boolean fill(Cell cell){
 
 // This method mask the recursive call annd reset the board before the call
     public  Boolean fillBoard(){
-    this.resetBoard();
-    return  this.fill(this.getCell(0,0));
+    this.resetBoardValue();
+    Boolean res =this.fill(this.getCell(0,0));
+    this.resetBoardVisited();
+    return  res;
     }
 
 
@@ -192,15 +199,15 @@ private void appendValue(StringBuilder buffer, Cell cell) {
 //        for (int element : candidate){
 //            System.out.println(element);
 //        }
-        long startTime = System.currentTimeMillis();
-        for (int i = 0; i < 1000000; i++) {
+//        long startTime = System.currentTimeMillis();
+//        for (int i = 0; i < 10000; i++) {
 
             myBoard.fillBoard();
             System.out.println(myBoard);
-        }
-        long stopTime = System.currentTimeMillis();
-        long elapsedTime = stopTime - startTime;
-        System.out.println(elapsedTime);
+//        }
+//        long stopTime = System.currentTimeMillis();
+//        long elapsedTime = stopTime - startTime;
+//        System.out.println(elapsedTime);
 	}
 
 }
