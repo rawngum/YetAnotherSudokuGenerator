@@ -9,6 +9,7 @@ private LinkedList<Integer> candidate= new LinkedList<Integer>() ;
 private  Cell nextCell;
 private  Cell prevCell;
 private  LinkedList<Integer> visited = new LinkedList<Integer>();
+private  int isVisited = 0;
 
 public  Cell(int row , int col){
     this.row = row;
@@ -60,6 +61,13 @@ public  Cell(int row , int col){
         return  visited;
     }
 
+    public int getIsVisited() {
+        return isVisited;
+    }
+
+    public  int isVisited(){
+        return isVisited++;
+    }
 
     @Override
     public String toString() {

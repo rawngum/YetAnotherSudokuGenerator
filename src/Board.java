@@ -3,6 +3,7 @@ import  java.lang.StringBuilder;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class Board {
 
@@ -132,7 +133,25 @@ private Boolean fill(Cell cell){
     return  res;
     }
 
-
+// This method makes holes in a  Board that is already fill with valid number
+//    it makes sure that there is only one solution
+    public  Boolean makeHoles(int holes){
+        Boolean res = true;
+        Random rand = new Random();
+        Cell currentCell = null;
+        int row = BOARD_SIZE;
+        int col = BOARD_SIZE;
+        for (int i = 0; i < holes; i++) {
+            do {
+                row = rand.nextInt(BOARD_SIZE);
+                col = rand.nextInt(BOARD_SIZE);
+                currentCell = this.getCell(row, col);
+            }while (currentCell.getIsVisited() !=  0);
+            currentCell.setValue(0);
+            currentCell.isVisited();
+        }
+        return  res;
+    }
     @Override
 public  String  toString (){
 		// Exact size of the generated string for the buffer (values + spacers)
@@ -204,6 +223,9 @@ private void appendValue(StringBuilder buffer, Cell cell) {
 
             myBoard.fillBoard();
             System.out.println(myBoard);
+            myBoard.makeHoles(80);
+        System.out.println("After 1 Hole");
+        System.out.println( myBoard);
 //        }
 //        long stopTime = System.currentTimeMillis();
 //        long elapsedTime = stopTime - startTime;
