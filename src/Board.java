@@ -135,10 +135,14 @@ private Boolean fill(Cell cell){
 
 // This method makes holes in a  Board that is already fill with valid number
 //    it makes sure that there is only one solution
+// TODO: 24/05/18 Comment savoir que l'on a visité toute les cases ?
+// TODO: 24/05/18 Tenir une liste des cases disonibles, cela devient complique de trouver une case non visité quand il n'y en a plus beaucoup, cela suppose beaucoup d'essai pour rien dans la boucle do-while
+// TODO: 24/05/18 Faire une liste de toute les cellules et juste une cellule de la liste, quand la liste est vide toute les cellules ont été visité
     public  Boolean makeHoles(int holes){
         Boolean res = true;
         Random rand = new Random();
         Cell currentCell = null;
+        int tmpCellValue = -1;
         int row = BOARD_SIZE;
         int col = BOARD_SIZE;
         for (int i = 0; i < holes; i++) {
@@ -147,7 +151,12 @@ private Boolean fill(Cell cell){
                 col = rand.nextInt(BOARD_SIZE);
                 currentCell = this.getCell(row, col);
             }while (currentCell.getIsVisited() !=  0);
+            tmpCellValue = currentCell.getValue();
             currentCell.setValue(0);
+//            if(!this.solve()){
+//                currentCell.setValue(tmpCellValue);
+//                i--;      // Reset the index to make sure we get the right number of holes
+//            }
             currentCell.isVisited();
         }
         return  res;
