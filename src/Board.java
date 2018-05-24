@@ -133,31 +133,44 @@ private Boolean fill(Cell cell){
     return  res;
     }
 
+    //Take a 2D array as an arg and return it in a LinkedList
+    public  LinkedList<Cell> asLinkedList(){
+    LinkedList<Cell> res = new LinkedList<Cell>();
+        for (Cell[] row :
+                this.getBoard()) {
+            for (Cell element :
+                    row) {
+              res.add(element);
+            }
+        }
+        return  res;
+    }
+
 // This method makes holes in a  Board that is already fill with valid number
 //    it makes sure that there is only one solution
 // TODO: 24/05/18 Comment savoir que l'on a visité toute les cases ?
 // TODO: 24/05/18 Tenir une liste des cases disonibles, cela devient complique de trouver une case non visité quand il n'y en a plus beaucoup, cela suppose beaucoup d'essai pour rien dans la boucle do-while
 // TODO: 24/05/18 Faire une liste de toute les cellules et juste une cellule de la liste, quand la liste est vide toute les cellules ont été visité
+// TODO: 24/05/18 Traiter le cas ou on e peut pas faire tout les trous demandé.
+// TODO: 24/05/18 Thow Exception si holes > BOARDSIZE² 
     public  Boolean makeHoles(int holes){
         Boolean res = true;
         Random rand = new Random();
         Cell currentCell = null;
+        LinkedList<Cell>   unvisitedCell = this.asLinkedList();
         int tmpCellValue = -1;
-        int row = BOARD_SIZE;
-        int col = BOARD_SIZE;
+        int currentIndex = -1;
         for (int i = 0; i < holes; i++) {
-            do {
-                row = rand.nextInt(BOARD_SIZE);
-                col = rand.nextInt(BOARD_SIZE);
-                currentCell = this.getCell(row, col);
-            }while (currentCell.getIsVisited() !=  0);
+            currentIndex = rand.nextInt(unvisitedCell.size());
+            currentCell = unvisitedCell.get(currentIndex);
+            unvisitedCell.remove(currentIndex);
+            
             tmpCellValue = currentCell.getValue();
             currentCell.setValue(0);
 //            if(!this.solve()){
 //                currentCell.setValue(tmpCellValue);
 //                i--;      // Reset the index to make sure we get the right number of holes
 //            }
-            currentCell.isVisited();
         }
         return  res;
     }
