@@ -110,6 +110,7 @@ private Boolean fill(Cell cell){
             tmpCandidateList) {
             cell.setValue(element);
             cell.setVisited(element);
+        // TODO: 25/05/18 this if should be outside the for loop ? At the very begining
         if(cell.getNextCell() == null){
             return true;
         }
@@ -146,11 +147,39 @@ private Boolean fill(Cell cell){
         return  res;
     }
 
+    // TODO: 25/05/18 Masquer l'appel recursif quand la methode fonctionnera
+    public  Boolean solve(Cell cell){
+        boolean res = true;
+        if (cell.getValue() > 0){
+            solve(cell.getNextCell());
+        }
+        LinkedList<Integer> tmpCandidateList = this.candidate(cell);
+        while (!tmpCandidateList.isEmpty()){
+
+        }
+        return  res;
+    }
+
+    // This method take the Cell from which to start, and the original value of this cell. We know that this original value is a
+    // Solution, and we are looking for other values that would be a solution. It return true if it doesnt find other solution
+    //When this method is called the value of the cell given in parameter should be 0
+
+public Boolean hasUniqueSolution(Cell cell, int originalValue ) {
+    Boolean res = true;
+    LinkedList<Integer> tmpCandidateList = this.candidate(cell);
+    tmpCandidateList.remove(originalValue);
+    for (int element :
+            tmpCandidateList) {
+        cell.setValue(element);
+        if(this.solve(this.getCell(0,0))){
+            res=false;
+        }
+    }
+    cell.setValue(0);
+    return res;
+}
 // This method makes holes in a  Board that is already fill with valid number
 //    it makes sure that there is only one solution
-// TODO: 24/05/18 Comment savoir que l'on a visité toute les cases ?
-// TODO: 24/05/18 Tenir une liste des cases disonibles, cela devient complique de trouver une case non visité quand il n'y en a plus beaucoup, cela suppose beaucoup d'essai pour rien dans la boucle do-while
-// TODO: 24/05/18 Faire une liste de toute les cellules et juste une cellule de la liste, quand la liste est vide toute les cellules ont été visité
 // TODO: 24/05/18 Traiter le cas ou on e peut pas faire tout les trous demandé.
 // TODO: 24/05/18 Thow Exception si holes > BOARDSIZE² 
     public  Boolean makeHoles(int holes){
@@ -158,19 +187,23 @@ private Boolean fill(Cell cell){
         Random rand = new Random();
         Cell currentCell = null;
         LinkedList<Cell>   unvisitedCell = this.asLinkedList();
-        int tmpCellValue = -1;
+        int originalValue = -1;
         int currentIndex = -1;
         for (int i = 0; i < holes; i++) {
             currentIndex = rand.nextInt(unvisitedCell.size());
             currentCell = unvisitedCell.get(currentIndex);
             unvisitedCell.remove(currentIndex);
             
-            tmpCellValue = currentCell.getValue();
+            originalValue = currentCell.getValue();
             currentCell.setValue(0);
-//            if(!this.solve()){
-//                currentCell.setValue(tmpCellValue);
+//            if(!this.hasUniqueSolution(currentCell,originalValue)){
+//                currentCell.setValue(originalValue);
 //                i--;      // Reset the index to make sure we get the right number of holes
 //            }
+            if (unvisitedCell.isEmpty()){
+                res=false;
+                i = holes;
+            }
         }
         return  res;
     }
@@ -245,7 +278,7 @@ private void appendValue(StringBuilder buffer, Cell cell) {
 
             myBoard.fillBoard();
             System.out.println(myBoard);
-            myBoard.makeHoles(80);
+            myBoard.makeHoles(15);
         System.out.println("After 1 Hole");
         System.out.println( myBoard);
 //        }

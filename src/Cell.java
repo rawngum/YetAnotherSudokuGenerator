@@ -70,14 +70,26 @@ public  Cell(int row , int col){
     }
 
     @Override
+    public boolean equals(Object o) {
+        boolean res = true;
+        Cell cell = (Cell) o;
+        res= res && this.row == cell.row;
+        res= res && this.col == cell.col;
+        return  res;
+    }
+
+    @Override
     public String toString() {
         return  " Value : " + this.value + "\t Column : " + this.col + "\t Row : " + this.row  +
                 "\t Next Cell 's reference : " +   Integer.toHexString(System.identityHashCode(this.getNextCell()))+ "\tCurrent cell's reference : " + Integer.toHexString(System.identityHashCode(this));
     }
 
     public static void main(String[] args) {
-
-
+        Cell cell1 = new Cell(2,3);
+        Cell cell2 = cell1;
+        Cell cell3 =  new Cell(4,3);
+        System.out.println(cell1.equals(cell2));
+        System.out.println(cell1.equals(cell3));
 	}
 
 }
