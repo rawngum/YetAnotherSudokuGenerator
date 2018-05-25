@@ -171,7 +171,7 @@ private Boolean fill(Cell cell){
     //When this method is called the value of the cell given in parameter should be 0
 
 public Boolean hasUniqueSolution(Cell cell, int originalValue ) {
-    this.resetBoardVisited(); // Juste pour être sur
+    this.resetBoardVisited(); // Juste pour être sur todo a supprimer quand les propriétés visited auront été supprimé
     Boolean res = true;
     LinkedList<Integer> tmpCandidateList = this.candidate(cell);
     tmpCandidateList.remove(originalValue);
