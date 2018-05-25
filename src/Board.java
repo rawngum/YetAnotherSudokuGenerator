@@ -104,13 +104,12 @@ return res;
     /* This method  generate a valid full sudoku This should not be used in the main */
 
 private Boolean fill(Cell cell){
-
+// TODO: 25/05/18 ne plus utiliser la propriété visited, mais plutot le mécanisme de solve
     LinkedList<Integer> tmpCandidateList = this.candidate(cell);
     for (int element :
             tmpCandidateList) {
             cell.setValue(element);
             cell.setVisited(element);
-        // TODO: 25/05/18 this if should be outside the for loop ? At the very begining
         if(cell.getNextCell() == null){
             return true;
         }
@@ -149,15 +148,22 @@ private Boolean fill(Cell cell){
 
     // TODO: 25/05/18 Masquer l'appel recursif quand la methode fonctionnera
     public  Boolean solve(Cell cell){
-        boolean res = true;
         if (cell.getValue() > 0){
-            solve(cell.getNextCell());
+            return solve(cell.getNextCell());
         }
         LinkedList<Integer> tmpCandidateList = this.candidate(cell);
-        while (!tmpCandidateList.isEmpty()){
+        for (int i = 0; i < tmpCandidateList.size(); i++) {
+            cell.setValue(tmpCandidateList.pop());
+            if (cell.getNextCell() == null){
+                return  true;
+            }
+            return  solve(cell.getNextCell());
+        }
+
+        if (tmpCandidateList.isEmpty()){
 
         }
-        return  res;
+
     }
 
     // This method take the Cell from which to start, and the original value of this cell. We know that this original value is a
@@ -165,6 +171,7 @@ private Boolean fill(Cell cell){
     //When this method is called the value of the cell given in parameter should be 0
 
 public Boolean hasUniqueSolution(Cell cell, int originalValue ) {
+    this.resetBoardVisited(); // Juste pour être sur
     Boolean res = true;
     LinkedList<Integer> tmpCandidateList = this.candidate(cell);
     tmpCandidateList.remove(originalValue);
