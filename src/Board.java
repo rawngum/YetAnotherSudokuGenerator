@@ -32,6 +32,23 @@ public class Board {
         }
     }
 
+    public  Board(Board other){
+        Cell nextCell = null;
+        Cell prevCell = null;
+        for (int i = board.length -1 ; i >=0 ; i--){ // Initialize references in both directions
+            for (int j = board[0].length  -1; j >= 0 ; j--) {
+                board[i][j] = new Cell(other.getCell(i,j));
+                board[i][j].setNextCell(nextCell);
+                nextCell = board[i][j];
+            }
+        }
+        for (int i = 0  ;  i<board.length ; i++) {
+            for (int j = 0 ; j < board[0].length ; j++){
+                board[i][j].setPrevCell(prevCell);
+                prevCell = board[i][j];
+            }
+        }
+    }
 public Cell getCell(int row, int col){
 	    return this.board[row][col];
 }
