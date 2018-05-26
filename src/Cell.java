@@ -16,7 +16,11 @@ public  Cell(int row , int col){
     this.col = col;
     this.value = 0;
     }
-
+    public  Cell(Cell other){
+    this.row = other.row;
+    this.col = other.col;
+    this.value = other.value;
+    }
     public int getValue() {
         return value;
     }
@@ -75,6 +79,7 @@ public  Cell(int row , int col){
         Cell cell = (Cell) o;
         res= res && this.row == cell.row;
         res= res && this.col == cell.col;
+        res = res && this.value == cell.value;
         return  res;
     }
 

@@ -239,7 +239,7 @@ public Boolean hasUniqueSolution(Cell cell, int originalValue ) {
     Board b = (Board ) o;
         for (int i = this.board.length -1 ; i >=0 ; i--){ // Initialize references in both directions
             for (int j = this.board[0].length  -1; j >= 0 ; j--) {
-               res = res && this.board[i][j] ==  b.board[i][j];
+               res = res && this.board[i][j].equals(b.board[i][j]);
             }
         }
         return  res;
@@ -316,8 +316,8 @@ private void appendValue(StringBuilder buffer, Cell cell) {
 
         myBoard.fillBoard();
         System.out.println(myBoard);
-        Board myBoard2 = new Board();
-        myBoard2.fillBoard();
+        Board myBoard2 = new Board(myBoard);
+        System.out.println(myBoard2);
         System.out.println("myBoard.equals(myBoard2)" + myBoard.equals(myBoard2));
         myBoard.makeHoles(15);
         System.out.println("After 1 Hole");
