@@ -17,7 +17,7 @@ public class Board {
     public  Board(){
         Cell nextCell = null;
         Cell prevCell = null;
-        for (int i = board.length -1 ; i >=0 ; i--){
+        for (int i = board.length -1 ; i >=0 ; i--){ // Initialize references in both directions
             for (int j = board[0].length  -1; j >= 0 ; j--) {
                 board[i][j] = new Cell(i,j);
                 board[i][j].setNextCell(nextCell);
@@ -164,6 +164,7 @@ private Boolean fill(Cell cell){
 
         }
 
+        return false;
     }
 
     // This method take the Cell from which to start, and the original value of this cell. We know that this original value is a
@@ -214,6 +215,19 @@ public Boolean hasUniqueSolution(Cell cell, int originalValue ) {
         }
         return  res;
     }
+
+    @Override
+    public boolean equals(Object o) {
+    boolean res = true;
+    Board b = (Board ) o;
+        for (int i = this.board.length -1 ; i >=0 ; i--){ // Initialize references in both directions
+            for (int j = this.board[0].length  -1; j >= 0 ; j--) {
+               res = res && this.board[i][j] ==  b.board[i][j];
+            }
+        }
+        return  res;
+    }
+
     @Override
 public  String  toString (){
 		// Exact size of the generated string for the buffer (values + spacers)
@@ -283,11 +297,15 @@ private void appendValue(StringBuilder buffer, Cell cell) {
 //        long startTime = System.currentTimeMillis();
 //        for (int i = 0; i < 10000; i++) {
 
-            myBoard.fillBoard();
-            System.out.println(myBoard);
-            myBoard.makeHoles(15);
+        myBoard.fillBoard();
+        System.out.println(myBoard);
+        Board myBoard2 = new Board();
+        myBoard2.fillBoard();
+        System.out.println("myBoard.equals(myBoard2)" + myBoard.equals(myBoard2));
+        myBoard.makeHoles(15);
         System.out.println("After 1 Hole");
         System.out.println( myBoard);
+        System.out.println("myBoard.equals(myBoard2)" + myBoard.equals(myBoard2));
 //        }
 //        long stopTime = System.currentTimeMillis();
 //        long elapsedTime = stopTime - startTime;
