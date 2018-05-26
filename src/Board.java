@@ -293,17 +293,17 @@ private void appendValue(StringBuilder buffer, Cell cell) {
     public static void main(String[] args) {
 
 	    Board myBoard = new Board();
-        myBoard.getCell(1,5).setValue(8);
-	    System.out.print(myBoard);
-        System.out.printf("Should be false Board.isValid(1,2,8) = %b%n",myBoard.isValid(1,2,8));
-        System.out.printf("Should be false Board.isValid(6,5,8) = %b%n",myBoard.isValid(6,5,8));
-        System.out.printf("Should be false Board.isValid(2,4,8) = %b%n",myBoard.isValid(2,4,8));
-        System.out.printf("Should be false Board.isValid(1,5,6) = %b%n",myBoard.isValid(1,5,6));
-        System.out.printf("Should be true Board.isValid(7,4,8) = %b%n",myBoard.isValid(7,4,8));
-        System.out.printf("Should be true Board.isValid(4,4,8) = %b%n",myBoard.isValid(4,4,8));
-        System.out.printf("Should be true Board.isValid(1,2,6) = %b%n",myBoard.isValid(1,2,6));
-        System.out.printf("Should be true Board.isValid(6,5,6) = %b%n",myBoard.isValid(6,5,6));
-        System.out.printf("Should be true Board.isValid(2,4,6) = %b%n",myBoard.isValid(2,4,6));
+//        myBoard.getCell(1,5).setValue(8);
+//	    System.out.print(myBoard);
+//        System.out.printf("Should be false Board.isValid(1,2,8) = %b%n",myBoard.isValid(1,2,8));
+//        System.out.printf("Should be false Board.isValid(6,5,8) = %b%n",myBoard.isValid(6,5,8));
+//        System.out.printf("Should be false Board.isValid(2,4,8) = %b%n",myBoard.isValid(2,4,8));
+//        System.out.printf("Should be false Board.isValid(1,5,6) = %b%n",myBoard.isValid(1,5,6));
+//        System.out.printf("Should be true Board.isValid(7,4,8) = %b%n",myBoard.isValid(7,4,8));
+//        System.out.printf("Should be true Board.isValid(4,4,8) = %b%n",myBoard.isValid(4,4,8));
+//        System.out.printf("Should be true Board.isValid(1,2,6) = %b%n",myBoard.isValid(1,2,6));
+//        System.out.printf("Should be true Board.isValid(6,5,6) = %b%n",myBoard.isValid(6,5,6));
+//        System.out.printf("Should be true Board.isValid(2,4,6) = %b%n",myBoard.isValid(2,4,6));
 //        myBoard.resetBoard();
 //        myBoard.fillBoard();
 //        myBoard.candidate(1,1);
@@ -313,16 +313,15 @@ private void appendValue(StringBuilder buffer, Cell cell) {
 //        }
 //        long startTime = System.currentTimeMillis();
 //        for (int i = 0; i < 10000; i++) {
-
+//Test pour la methode solve()
         myBoard.fillBoard();
         System.out.println(myBoard);
         Board myBoard2 = new Board(myBoard);
-        System.out.println(myBoard2);
-        System.out.println("myBoard.equals(myBoard2)" + myBoard.equals(myBoard2));
         myBoard.makeHoles(15);
-        System.out.println("After 1 Hole");
-        System.out.println( myBoard);
-        System.out.println("myBoard.equals(myBoard2)" + myBoard.equals(myBoard2));
+        System.out.println( "15 trous" + myBoard);
+//        myBoard.solve(myBoard.getCell(0,0));
+        System.out.println("myBoard après résolution" + myBoard);
+        System.out.println("La méthode solve() fonctionne" + myBoard.equals(myBoard2));
 //        }
 //        long stopTime = System.currentTimeMillis();
 //        long elapsedTime = stopTime - startTime;
