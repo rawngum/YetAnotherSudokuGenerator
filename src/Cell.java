@@ -2,24 +2,26 @@ import java.util.LinkedList;
 
 public class Cell {
 
-private  int row;
-private  int col;
-private  int value;
-private LinkedList<Integer> candidate= new LinkedList<Integer>() ;
-private  Cell nextCell;
-private  Cell prevCell;
-private  LinkedList<Integer> visited = new LinkedList<Integer>();
-private  int isVisited = 0;
+    private  int row;
+    private  int col;
+    private  int value;
+    private LinkedList<Integer> candidate= new LinkedList<Integer>() ;
+    private  Cell nextEmptyCell;
+    private  Cell nextCell;
+    private  Cell prevCell;
+    private  Cell prevEmptyCell;
+    private  LinkedList<Integer> visited = new LinkedList<Integer>();
+    private  int isVisited = 0;
 
-public  Cell(int row , int col){
-    this.row = row;
-    this.col = col;
-    this.value = 0;
+    public  Cell(int row , int col){
+        this.row = row;
+        this.col = col;
+        this.value = 0;
     }
     public  Cell(Cell other){
-    this.row = other.row;
-    this.col = other.col;
-    this.value = other.value;
+        this.row = other.row;
+        this.col = other.col;
+        this.value = other.value;
     }
     public int getValue() {
         return value;
@@ -43,6 +45,22 @@ public  Cell(int row , int col){
 
     public Cell getPrevCell() {
         return prevCell;
+    }
+
+    public Cell getNextEmptyCell() {
+        return nextEmptyCell;
+    }
+
+    public Cell getPrevEmptyCell() {
+        return prevEmptyCell;
+    }
+
+    public void setNextEmptyCell(Cell nextEmptyCell) {
+        this.nextEmptyCell = nextEmptyCell;
+    }
+
+    public void setPrevEmptyCell(Cell prevEmptyCell) {
+        this.prevEmptyCell = prevEmptyCell;
     }
 
     public int getCol() {
@@ -95,6 +113,6 @@ public  Cell(int row , int col){
         Cell cell3 =  new Cell(4,3);
         System.out.println(cell1.equals(cell2));
         System.out.println(cell1.equals(cell3));
-	}
+    }
 
 }
