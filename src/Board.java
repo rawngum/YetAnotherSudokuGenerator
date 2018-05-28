@@ -1,4 +1,3 @@
-import javax.xml.bind.Element;
 import  java.lang.StringBuilder;
 import java.util.Arrays;
 import java.util.Collections;
@@ -79,6 +78,7 @@ public class Board {
         return board;
     }
 
+
     /* This method return true if value is'nt  in  the row, the column and the region
      * It return false if the value is in the row, the column, the region or if the Cell is already  full*/
     public boolean isValid(int row, int col, int value){
@@ -143,7 +143,6 @@ public class Board {
     /* This method  generate a valid full sudoku This should not be used in the main */
 
     private Boolean fill(Cell cell){
-// TODO: 25/05/18 ne plus utiliser la propriété visited, mais plutot le mécanisme de solve
         LinkedList<Integer> tmpCandidateList = this.candidate(cell);
         for (int element :
                 tmpCandidateList) {
@@ -208,7 +207,8 @@ public class Board {
         }
         return false;
     }
-
+// Mask the recursive call, reset the visited propertie  and make sure the  cell in parameter for the first
+    // recursive call is the first empty Cell
     public  boolean  solveBoard(){
         boolean res;
         this.findEmptyCell();
@@ -235,7 +235,8 @@ public class Board {
             for (int element :
                     tmpCandidateList) {
                 cell.setValue(element);
-                if(this.solveBoard()){
+                if(this.solveBoard()){ // TODO: 28/05/18 Solve devrai se faire sur un objet temporaire, pour le moment il remplis au fur a mesure que je fais les trous. Faire une class generator 
+                    System.out.println("hasUNiqueSolution return false");
                     cell.setValue(originalValue);
                     return  false;
                 }
@@ -258,8 +259,7 @@ public class Board {
         for (int i = 0; i < holes; i++) {
             currentIndex = rand.nextInt(unvisitedCell.size());
             currentCell = unvisitedCell.get(currentIndex);
-            unvisitedCell.remove(currentIndex);
-
+            unvisitedCell.remove( currentIndex);
             originalValue = currentCell.getValue();
             currentCell.setValue(0);
             if(!this.hasUniqueSolution(currentCell,originalValue)){
@@ -267,6 +267,7 @@ public class Board {
                 i--;      // Reset the index to make sure we get the right number of holes
             }
             if (unvisitedCell.isEmpty()){
+                System.out.println("Abort");
                 res=false;
                 i = holes;
             }
@@ -357,14 +358,21 @@ public class Board {
 //Test pour la methode solve()
         myBoard.fillBoard();
         System.out.println(myBoard);
-        System.out.println( "15 trous" + myBoard);
-        if(myBoard.makeHoles(25)){
-            System.out.println("un succés");
-        }else  {
-            System.out.println("un echec");
-        }
+        myBoard.makeHoles(80);
         System.out.println(myBoard);
-        ;
+        int counter = 0;
+        for (Cell[] row :
+                myBoard.getBoard()) {
+            for (Cell element :
+                    row) {
+                if(element.getValue() == 0) {
+                    counter++;
+                }
+            }
+        }
+        System.out.println("Il y a " + counter + " Trous");
+        myBoard.solveBoard();
+        System.out.println(myBoard);
 //        }
 //        long stopTime = System.currentTimeMillis();
 //        long elapsedTime = stopTime - startTime;
