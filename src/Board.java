@@ -229,13 +229,16 @@ public class Board {
     public Boolean hasUniqueSolution(Cell cell, int originalValue ) {
         this.resetBoardVisited();
         LinkedList<Integer> tmpCandidateList = this.candidate(cell);
-        tmpCandidateList.remove(originalValue);
-        for (int element :
-                tmpCandidateList) {
-            cell.setValue(element);
-            if(this.solveBoard()){
-                cell.setValue(originalValue);
-                return  false;
+        if(tmpCandidateList.size() > 1){
+
+            tmpCandidateList.remove((Integer) originalValue); // Must cast originalValue. If not remove() treat it as an index
+            for (int element :
+                    tmpCandidateList) {
+                cell.setValue(element);
+                if(this.solveBoard()){
+                    cell.setValue(originalValue);
+                    return  false;
+                }
             }
         }
         cell.setValue(0);
@@ -360,9 +363,8 @@ public class Board {
         }else  {
             System.out.println("un echec");
         }
+        System.out.println(myBoard);
         ;
-        System.out.println("myBoard après résolution" + myBoard);
-        System.out.println("La méthode solve() fonctionne" + myBoard.equals(boardSolution));
 //        }
 //        long stopTime = System.currentTimeMillis();
 //        long elapsedTime = stopTime - startTime;
