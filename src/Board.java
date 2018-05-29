@@ -185,15 +185,15 @@ public class Board {
     }
 
     // Cell passed in parameter MUST be the first empty cell of the board
-    public  Boolean solve(Cell cell){
-        LinkedList<Integer> tmpCandidateList = this.candidate(cell);
+    public  static boolean solve(Cell cell, Board board){
+        LinkedList<Integer> tmpCandidateList = board.candidate(cell);
         for (int i = 0; i < tmpCandidateList.size(); i++) {
             cell.setValue(tmpCandidateList.pop());
             cell.setVisited(cell.getValue());
             if (cell.getNextEmptyCell() == null) { // Sucess
                 return true;
             }
-            return solve(cell.getNextEmptyCell());
+            return solve(cell.getNextEmptyCell(), board);
         }
 
         if(cell.getPrevEmptyCell() == null){ // Failure
@@ -202,21 +202,21 @@ public class Board {
             if(tmpCandidateList.isEmpty()){
 //                cell.getVisited().clear();
                 cell.setValue(0);
-                return  solve(cell.getPrevEmptyCell());
+                return  solve(cell.getPrevEmptyCell(), board);
             }
         }
         return false;
     }
 // Mask the recursive call, reset the visited propertie  and make sure the  cell in parameter for the first
     // recursive call is the first empty Cell
-    public  boolean  solveBoard(){
+    public  static   boolean solveBoard (Board board){
         boolean res;
-        this.findEmptyCell();
-        this.resetBoardVisited();
-        if(this.getCell(0,0).getValue() == 0){
-           res = this.solve(this.getCell(0,0));
+        board.findEmptyCell();
+        board.resetBoardVisited();
+        if(board.getCell(0,0).getValue() == 0){
+           res =solve(board.getCell(0,0),board);
         }else  {
-            res = this.solve(this .getCell(0,0).getNextEmptyCell());
+            res = solve(board .getCell(0,0).getNextEmptyCell(), board);
         }
         return  res;
     }
@@ -235,7 +235,7 @@ public class Board {
             for (int element :
                     tmpCandidateList) {
                 cell.setValue(element);
-                if(this.solveBoard()){ // TODO: 28/05/18 Solve devrai se faire sur un objet temporaire, pour le moment il remplis au fur a mesure que je fais les trous. Faire une class generator 
+                if(solveBoard(new Board(this))){ // TODO: 28/05/18 Solve devrai se faire sur un objet temporaire, pour le moment il remplis au fur a mesure que je fais les trous. Faire une class generator
                     System.out.println("hasUNiqueSolution return false");
                     cell.setValue(originalValue);
                     return  false;
@@ -256,14 +256,16 @@ public class Board {
         LinkedList<Cell>   unvisitedCell = this.asLinkedList();
         int originalValue = -1;
         int currentIndex = -1;
+        int counter = 0;
         for (int i = 0; i < holes; i++) {
             currentIndex = rand.nextInt(unvisitedCell.size());
             currentCell = unvisitedCell.get(currentIndex);
             unvisitedCell.remove( currentIndex);
             originalValue = currentCell.getValue();
             currentCell.setValue(0);
-            if(!this.hasUniqueSolution(currentCell,originalValue)){
+            if(!solveBoard(new Board(this))){
                 currentCell.setValue(originalValue);
+                counter++;
                 i--;      // Reset the index to make sure we get the right number of holes
             }
             if (unvisitedCell.isEmpty()){
@@ -272,6 +274,7 @@ public class Board {
                 i = holes;
             }
         }
+        System.out.println("solveBoard a échoué" + counter );
         return  res;
     }
 
@@ -358,7 +361,7 @@ public class Board {
 //Test pour la methode solve()
         myBoard.fillBoard();
         System.out.println(myBoard);
-        myBoard.makeHoles(80);
+        myBoard.makeHoles(60);
         System.out.println(myBoard);
         int counter = 0;
         for (Cell[] row :
@@ -371,7 +374,7 @@ public class Board {
             }
         }
         System.out.println("Il y a " + counter + " Trous");
-        myBoard.solveBoard();
+        solveBoard(myBoard);
         System.out.println(myBoard);
 //        }
 //        long stopTime = System.currentTimeMillis();
