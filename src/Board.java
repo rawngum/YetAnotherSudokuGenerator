@@ -266,7 +266,7 @@ public class Board {
             if(!solveBoard(new Board(this))){
                 currentCell.setValue(originalValue);
                 counter++;
-                i--;      // Reset the index to make sure we get the right number of holes
+                i--;      // todo Plutot utiliser un i++ quand solve est true dans une boucle while
             }
             if (unvisitedCell.isEmpty()){
                 System.out.println("Abort");
