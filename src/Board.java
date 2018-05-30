@@ -248,7 +248,7 @@ public class Board {
     // This method makes holes in a  Board that is already fill with valid number
 //    it makes sure that there is only one solution
 // TODO: 24/05/18 Traiter le cas ou on e peut pas faire tout les trous demandé.
-// TODO: 24/05/18 Thow Exception si holes > BOARDSIZE² 
+// TODO: 24/05/18 Thow Exception si holes > BOARDSIZE²
     public  Boolean makeHoles(int holes){
         Boolean res = true;
         Random rand = new Random();
@@ -256,17 +256,17 @@ public class Board {
         LinkedList<Cell>   unvisitedCell = this.asLinkedList();
         int originalValue = -1;
         int currentIndex = -1;
-        int counter = 0;
-        for (int i = 0; i < holes; i++) {
+        int i = 0;
+        while (i<holes){
             currentIndex = rand.nextInt(unvisitedCell.size());
             currentCell = unvisitedCell.get(currentIndex);
             unvisitedCell.remove( currentIndex);
             originalValue = currentCell.getValue();
             currentCell.setValue(0);
-            if(!solveBoard(new Board(this))){
+            if(solveBoard(new Board(this))){
+                i++;
+            }else {
                 currentCell.setValue(originalValue);
-                counter++;
-                i--;      // todo Plutot utiliser un i++ quand solve est true dans une boucle while
             }
             if (unvisitedCell.isEmpty()){
                 System.out.println("Abort");
@@ -274,10 +274,8 @@ public class Board {
                 i = holes;
             }
         }
-        System.out.println("solveBoard a échoué" + counter );
         return  res;
     }
-
     @Override
     public boolean equals(Object o) {
         boolean res = true;
