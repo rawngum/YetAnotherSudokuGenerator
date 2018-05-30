@@ -249,6 +249,7 @@ public class Board {
 //    it makes sure that there is only one solution
 // TODO: 24/05/18 Traiter le cas ou on e peut pas faire tout les trous demandé.
 // TODO: 24/05/18 Thow Exception si holes > BOARDSIZE²
+    /*Parfois Lors de deuxieme resolution après makeHoles la première case est changé à un autre chiffre ?!*/
     public  Boolean makeHoles(int holes){
         Boolean res = true;
         Random rand = new Random();
