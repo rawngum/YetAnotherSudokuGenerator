@@ -78,6 +78,37 @@ public class Board {
         return board;
     }
 
+    public static boolean isValid(int row, int col, int value, Cell[][] board){
+        Boolean res=true;
+//        Checking the row
+        for (int i = 0 ; i < BOARD_SIZE ; i++){
+            if (board[i][col].getValue() == value){
+                res = false;
+            }
+        }
+//        Checking the column
+        for (int i = 0; i < BOARD_SIZE ; i++){
+            if (board[row][i].getValue() == value){
+                res = false;
+            }
+        }
+//        Checking the region
+        int rowStart = row /REGION_SIZE * REGION_SIZE;
+        int colStart = col /REGION_SIZE * REGION_SIZE;
+
+        for (int i =rowStart; i <rowStart + REGION_SIZE && i < BOARD_SIZE ; i++){
+            for (int j = colStart ; j < colStart + REGION_SIZE  && j < BOARD_SIZE ; j++){
+                if (board[i][j].getValue() == value){
+                    res = false;
+                }
+            }
+        }
+//        Checking the cell
+        if (board[row][col].getValue() == value){
+            res = false;
+        }
+        return res;
+    }
 
     /* This method return true if value is'nt  in  the row, the column and the region
      * It return false if the value is in the row, the column, the region or if the Cell is already  full*/
@@ -186,26 +217,23 @@ public class Board {
 
     // Cell passed in parameter MUST be the first empty cell of the board
     public  static boolean solve(Cell cell, Board board){
-        LinkedList<Integer> tmpCandidateList = board.candidate(cell);
-        for (int i = 0; i < tmpCandidateList.size(); i++) {
-            cell.setValue(tmpCandidateList.pop());
-            cell.setVisited(cell.getValue());
-            if (cell.getNextEmptyCell() == null) { // Sucess
-                return true;
+        for (int i = 0; i < 10; i++) {
+            if (isValid(cell.getRow(),cell.getCol(), i,board.getBoard()) &&  !cell.getVisited().contains(i)) {
+                cell.setValue(i);
+                cell.setVisited(i);
+                if (cell.getNextEmptyCell() == null) { // Sucess
+                    return true;
+                }
+                return solve(cell.getNextEmptyCell(), board);
             }
-            return solve(cell.getNextEmptyCell(), board);
         }
 
         if(cell.getPrevEmptyCell() == null){ // Failure
             return  false;
         }else {
-            if(tmpCandidateList.isEmpty()){
-//                cell.getVisited().clear();
                 cell.setValue(0);
                 return  solve(cell.getPrevEmptyCell(), board);
             }
-        }
-        return false;
     }
 // Mask the recursive call, reset the visited propertie  and make sure the  cell in parameter for the first
     // recursive call is the first empty Cell
@@ -361,7 +389,7 @@ public class Board {
 //Test pour la methode solve()
         myBoard.fillBoard();
         System.out.println(myBoard);
-        myBoard.makeHoles(60);
+        myBoard.makeHoles(80);
         System.out.println(myBoard);
         int counter = 0;
         for (Cell[] row :
