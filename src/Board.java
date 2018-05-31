@@ -271,6 +271,7 @@ public class Board {
             }
             if (unvisitedCell.isEmpty()){
                 System.out.println("Abort");
+                System.out.println(this);
                 res=false;
                 i = holes;
             }
