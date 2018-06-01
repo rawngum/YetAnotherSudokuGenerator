@@ -271,10 +271,8 @@ public class Board {
 
     // This method makes holes in a  Board that is already fill with valid number
 //    it makes sure that there is only one solution
-// TODO: 24/05/18 Traiter le cas ou on e peut pas faire tout les trous demandé.
-// TODO: 24/05/18 Thow Exception si holes > BOARDSIZE²
-    public  Boolean makeHoles(int holes){
-        Boolean res = true;
+    public  int makeHoles(int holes){
+        int res = -1;
         Random rand = new Random();
         Cell currentCell = null;
         LinkedList<Cell>   unvisitedCell = this.asLinkedList();
@@ -296,7 +294,7 @@ public class Board {
             if (unvisitedCell.isEmpty()){
                 System.out.println("Abort");
                 System.out.println(this);
-                res=false;
+                res=i;
                 i = holes;
             }
         }
@@ -362,30 +360,9 @@ public class Board {
     public static void main(String[] args) {
 
         Board myBoard = new Board();
-//        myBoard.getCell(1,5).setValue(8);
-//	    System.out.print(myBoard);
-//        System.out.printf("Should be false Board.isValid(1,2,8) = %b%n",myBoard.isValid(1,2,8));
-//        System.out.printf("Should be false Board.isValid(6,5,8) = %b%n",myBoard.isValid(6,5,8));
-//        System.out.printf("Should be false Board.isValid(2,4,8) = %b%n",myBoard.isValid(2,4,8));
-//        System.out.printf("Should be false Board.isValid(1,5,6) = %b%n",myBoard.isValid(1,5,6));
-//        System.out.printf("Should be true Board.isValid(7,4,8) = %b%n",myBoard.isValid(7,4,8));
-//        System.out.printf("Should be true Board.isValid(4,4,8) = %b%n",myBoard.isValid(4,4,8));
-//        System.out.printf("Should be true Board.isValid(1,2,6) = %b%n",myBoard.isValid(1,2,6));
-//        System.out.printf("Should be true Board.isValid(6,5,6) = %b%n",myBoard.isValid(6,5,6));
-//        System.out.printf("Should be true Board.isValid(2,4,6) = %b%n",myBoard.isValid(2,4,6));
-//        myBoard.resetBoard();
-//        myBoard.fillBoard();
-//        myBoard.candidate(1,1);
-//        LinkedList<Integer> candidate = myBoard.getCell(1,1).getCandidateList();
-//        for (int element : candidate){
-//            System.out.println(element);
-//        }
-//        long startTime = System.currentTimeMillis();
-//        for (int i = 0; i < 10000; i++) {
-//Test pour la methode solve()
         myBoard.fillBoard();
         System.out.println(myBoard);
-        myBoard.makeHoles(80);
+        System.out.println(myBoard.makeHoles(80));
         System.out.println(myBoard);
         int counter = 0;
         for (Cell[] row :
@@ -400,10 +377,6 @@ public class Board {
         System.out.println("Il y a " + counter + " Trous");
         solveBoard(myBoard);
         System.out.println(myBoard);
-//        }
-//        long stopTime = System.currentTimeMillis();
-//        long elapsedTime = stopTime - startTime;
-//        System.out.println(elapsedTime);
     }
 
 }
