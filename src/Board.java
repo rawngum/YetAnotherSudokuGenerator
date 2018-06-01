@@ -250,34 +250,29 @@ public class Board {
     }
 
 
-    // This method take the Cell from which to start, and the original value of this cell. We know that this original value is a
-    // Solution, and we are looking for other values that would be a solution. It return true if it doesnt find other solution
-    //When this method is called the value of the cell given in parameter should be 0
-
-    public Boolean hasUniqueSolution(Cell cell, int originalValue ) {
-        this.resetBoardVisited();
-        LinkedList<Integer> tmpCandidateList = this.candidate(cell);
-        if(tmpCandidateList.size() > 1){
-
-            tmpCandidateList.remove((Integer) originalValue); // Must cast originalValue. If not remove() treat it as an index
-            for (int element :
-                    tmpCandidateList) {
-                cell.setValue(element);
-                if(solveBoard(new Board(this))){ // TODO: 28/05/18 Solve devrai se faire sur un objet temporaire, pour le moment il remplis au fur a mesure que je fais les trous. Faire une class generator
-                    System.out.println("hasUNiqueSolution return false");
+    // This method check if the  original Value of the cell is the  beginning of a solution, and it the unique solution
+    public Boolean hasUniqueSolution(Cell cell , int originalValue){
+        Boolean res = true;
+        if (!solveBoard(new Board(this))){
+            res = false;
+        }
+        for (int i = 1; i < 10; i++) {
+            if(i!= originalValue && isValid(cell.getRow(), cell.getCol(),i,this.getBoard())){
+                cell.setValue(i);
+                if (solveBoard(new Board(this))){
                     cell.setValue(originalValue);
-                    return  false;
+                    res = false;
                 }
             }
         }
         cell.setValue(0);
-        return true ;
+        return res;
     }
+
     // This method makes holes in a  Board that is already fill with valid number
 //    it makes sure that there is only one solution
 // TODO: 24/05/18 Traiter le cas ou on e peut pas faire tout les trous demandé.
 // TODO: 24/05/18 Thow Exception si holes > BOARDSIZE²
-    /*Parfois Lors de deuxieme resolution après makeHoles la première case est changé à un autre chiffre ?!*/
     public  Boolean makeHoles(int holes){
         Boolean res = true;
         Random rand = new Random();
@@ -292,10 +287,11 @@ public class Board {
             unvisitedCell.remove( currentIndex);
             originalValue = currentCell.getValue();
             currentCell.setValue(0);
-            if(solveBoard(new Board(this))){
+            if(this.hasUniqueSolution(currentCell,originalValue)){
                 i++;
             }else {
                 currentCell.setValue(originalValue);
+                System.out.println("hasUniqueValue = false");
             }
             if (unvisitedCell.isEmpty()){
                 System.out.println("Abort");
