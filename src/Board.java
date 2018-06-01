@@ -3,7 +3,7 @@ import java.util.Arrays;
 
 public class Board {
 
-    private Cell[][] board = new Cell[9][9] ;
+    protected Cell[][] board = new Cell[9][9] ;
     static final int EMPTY_CELL = 0;
     static final int BOARD_SIZE = 9;
     static final int REGION_SIZE = 3;
@@ -129,6 +129,20 @@ public class Board {
         buffer.append(line);
         buffer.append('\n');
     }
+    public  int howManyNumbers(){
+        int counter = 0;
+        for (Cell[] row :
+                board) {
+            for (Cell element :
+                    row) {
+                if(element.getValue() != 0) {
+                    counter++;
+                }
+            }
+        }
+        return  counter;
+
+    }
     public static void main(String[] args) {
 
 //        Board myBoard = new Board();
@@ -136,19 +150,10 @@ public class Board {
 //        System.out.println(myBoard);
 //        System.out.println(myBoard.makeHoles(80));
 //        System.out.println(myBoard);
-//        int counter = 0;
-//        for (Cell[] row :
-//                myBoard.getBoard()) {
-//            for (Cell element :
-//                    row) {
-//                if(element.getValue() == 0) {
-//                    counter++;
-//                }
-//            }
-//        }
+
 //        System.out.println("Il y a " + counter + " Trous");
 //        solveBoard(myBoard);
 //        System.out.println(myBoard);
-//    }
+    }
 
 }

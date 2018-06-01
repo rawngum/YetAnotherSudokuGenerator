@@ -1,28 +1,28 @@
-public class Solver {
-    protected Board board;
+public class Solver extends  Board{
     protected  Solver(){
-        this.board = new Board();
+        super();
     }
-    public  Solver(Board board){
-        this.board = board;
+    public  Solver(Solver solver){
+        super(solver);
     }
 
-    private  void findEmptyCell(){
+    private  static void findEmptyCell(Cell[][] board){
         Cell nextEmptyCell = null;
         Cell prevEmptyCell = null;
+//        Cell [][] board = this.board.getBoard();
         for (int i = board.length -1 ; i >=0 ; i--){ // Initialize references in both directions
             for (int j = board[0].length  -1; j >= 0 ; j--) {
-                this.board[i][j].setNextEmptyCell(nextEmptyCell);
-                if (this.board[i][j].getValue() == 0){
-                    nextEmptyCell = this.board[i][j];
+                board[i][j].setNextEmptyCell(nextEmptyCell);
+                if (board[i][j].getValue() == 0){
+                    nextEmptyCell = board[i][j];
                 }
             }
         }
         for (int i = 0  ;  i<board.length ; i++) {
             for (int j = 0 ; j < board[0].length ; j++){
-                this.board[i][j].setPrevEmptyCell(prevEmptyCell);
-                if (this.board[i][j].getValue() == 0){
-                    prevEmptyCell = this.board[i][j];
+                board[i][j].setPrevEmptyCell(prevEmptyCell);
+                if (board[i][j].getValue() == 0){
+                    prevEmptyCell = board[i][j];
                 }
             }
         }
@@ -117,7 +117,7 @@ public class Solver {
     // recursive call is the first empty Cell
     public  static   boolean solveBoard (Board board){
         boolean res;
-        board.findEmptyCell();
+        findEmptyCell(board.getBoard());
         board.resetBoardVisited();
         if(board.getCell(0,0).getValue() == 0){
             res =solve(board.getCell(0,0),board);

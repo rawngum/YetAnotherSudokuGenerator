@@ -7,7 +7,7 @@ public class Generator extends Solver{
         super();
     }
     public  Generator(Generator generator){
-        this.board = new Board(generator.board);
+        super(generator);
     }
     /*This method generate a list of  valid candidate to the sudoku board.
      * Return the reference of the candidateList*/
@@ -105,15 +105,20 @@ public class Generator extends Solver{
                 i++;
             }else {
                 currentCell.setValue(originalValue);
-                System.out.println("hasUniqueValue = false");
             }
             if (unvisitedCell.isEmpty()){
-                System.out.println("Abort");
-                System.out.println(this);
                 res=i;
                 i = holes;
             }
         }
+        return  res;
+    }
+    /* This method take the remaining  numbers wanted as an argument, and return the effective remaining number
+    *  */
+    public  int makeBoard(int remainingNumbers){
+        int res = -1;
+        this.fillBoard();
+        res = BOARD_SIZE * BOARD_SIZE - this.makeHoles(BOARD_SIZE * BOARD_SIZE - remainingNumbers);
         return  res;
     }
 }
