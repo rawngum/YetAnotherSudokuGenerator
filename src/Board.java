@@ -10,7 +10,7 @@ public class Board {
     private char[] line;
 
 
-    public  Board(){
+    protected Board(){
         Cell nextCell = null;
         Cell prevCell = null;
         for (int i = board.length -1 ; i >=0 ; i--){ // Initialize references in both directions
@@ -28,7 +28,7 @@ public class Board {
         }
     }
 
-    public  Board(Board other){
+    protected Board(Board other){
         Cell nextCell = null;
         Cell prevCell = null;
         for (int i = board.length -1 ; i >=0 ; i--){ // Initialize references in both directions
@@ -47,24 +47,24 @@ public class Board {
     }
 
 
-    public Cell getCell(int row, int col){
+    protected Cell getCell(int row, int col){
         return this.board[row][col];
     }
 
-    public Cell[][] getBoard() {
+    protected Cell[][] getBoard() {
         return board;
     }
 
 
 
-    public  void  resetBoardVisited(){
+    protected void  resetBoardVisited(){
         for(Cell[] row : this.board){
             for(Cell element : row){
                 element.getVisited().clear();
             }
         }
     }
-    public  void  resetBoardValue(){
+    protected   void  resetBoardValue(){
         for(Cell[] row : this.board){
             for(Cell element : row){
                 element.setValue(0);

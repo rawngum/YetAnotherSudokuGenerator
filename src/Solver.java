@@ -28,7 +28,7 @@ public class Solver extends  Board{
         }
     }
 
-    public static boolean isValid(int row, int col, int value, Cell[][] board){
+    protected static boolean isValid(int row, int col, int value, Cell[][] board){
         Boolean res=true;
 //        Checking the row
         for (int i = 0 ; i < BOARD_SIZE ; i++){
@@ -61,7 +61,7 @@ public class Solver extends  Board{
     }
     /* This method return true if value is'nt  in  the row, the column and the region
      * It return false if the value is in the row, the column, the region or if the Cell is already  full*/
-    public boolean isValid(int row, int col, int value){
+    protected boolean isValid(int row, int col, int value){
         Boolean res=true;
 //        Checking the row
         for (int i = 0 ; i < BOARD_SIZE ; i++){
@@ -94,7 +94,7 @@ public class Solver extends  Board{
     }
 
     // Cell passed in parameter MUST be the first empty cell of the board
-    public  static boolean solve(Cell cell, Board board){
+   protected   static boolean solve(Cell cell, Board board){
         for (int i = 0; i < 10; i++) {
             if (isValid(cell.getRow(),cell.getCol(), i,board.getBoard()) &&  !cell.getVisited().contains(i)) {
                 cell.setValue(i);

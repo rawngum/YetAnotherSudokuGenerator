@@ -11,7 +11,7 @@ public class Generator extends Solver{
     }
     /*This method generate a list of  valid candidate to the sudoku board.
      * Return the reference of the candidateList*/
-    public LinkedList<Integer> candidate(Cell cell){
+    private LinkedList<Integer> candidate(Cell cell){
         LinkedList<Integer> candidate = cell.getCandidateList();
         candidate.clear();
         for (int i = 1; i < 10; i++) {
@@ -46,7 +46,7 @@ public class Generator extends Solver{
     }
 
     // This method mask the recursive call annd reset the board before the call
-    public  Boolean fillBoard(){
+    private   Boolean fillBoard(){
         this.resetBoardValue();
         Boolean res =this.fill(this.getCell(0,0));
         this.resetBoardVisited();
@@ -54,7 +54,7 @@ public class Generator extends Solver{
     }
 
     //Take a 2D array as an arg and return it in a LinkedList
-    public  LinkedList<Cell> asLinkedList(){
+   private   LinkedList<Cell> asLinkedList(){
         LinkedList<Cell> res = new LinkedList<Cell>();
         for (Cell[] row :
                 this.getBoard()) {
@@ -67,7 +67,7 @@ public class Generator extends Solver{
     }
 
     // This method check if the  original Value of the cell is the  beginning of a solution, and it the unique solution
-    public Boolean hasUniqueSolution(Cell cell , int originalValue){
+    private Boolean hasUniqueSolution(Cell cell , int originalValue){
         Boolean res = true;
         if (!solveBoard(new Board(this))){
             res = false;
@@ -87,7 +87,7 @@ public class Generator extends Solver{
 
     // This method makes holes in a  Board that is already fill with valid number
 //    it makes sure that there is only one solution
-    public  int makeHoles(int holes){
+    private   int makeHoles(int holes){
         int res = -1;
         Random rand = new Random();
         Cell currentCell = null;
