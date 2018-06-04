@@ -5,7 +5,7 @@ public class Main {
 	    Generator sudoku = new Generator();
 	    sudoku.makeBoard(1);
 		System.out.println(sudoku);
-		System.out.println(sudoku.howManyNumbers() + " holes were made");
+		System.out.println(sudoku.howManyNumbers() + " starting numbers");
 	    Solver.solveBoard(sudoku);
 		System.out.println(sudoku);
 	}

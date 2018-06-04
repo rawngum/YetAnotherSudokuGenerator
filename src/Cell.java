@@ -11,7 +11,6 @@ public class Cell {
     private  Cell prevCell;
     private  Cell prevEmptyCell;
     private  LinkedList<Integer> visited = new LinkedList<Integer>();
-    private  int isVisited = 0;
 
     public  Cell(int row , int col){
         this.row = row;
@@ -81,14 +80,6 @@ public class Cell {
 
     public LinkedList<Integer> getVisited() {
         return  visited;
-    }
-
-    public int getIsVisited() {
-        return isVisited;
-    }
-
-    public  int isVisited(){
-        return isVisited++;
     }
 
     @Override
