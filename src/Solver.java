@@ -95,7 +95,7 @@ public class Solver extends  Board{
 
     // Cell passed in parameter MUST be the first empty cell of the board
    protected   static boolean solve(Cell cell, Board board){
-        for (int i = 0; i < 10; i++) {
+        for (int i = 1; i < 10; i++) {
             if (isValid(cell.getRow(),cell.getCol(), i,board.getBoard()) &&  !cell.getVisited().contains(i)) {
                 cell.setValue(i);
                 cell.setVisited(i);
