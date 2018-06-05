@@ -3,11 +3,11 @@ import java.util.Arrays;
 
 public class Board {
 
-    protected Cell[][] board = new Cell[9][9] ;
     static final int EMPTY_CELL = 0;
     static final int BOARD_SIZE = 9;
     static final int REGION_SIZE = 3;
     private char[] line;
+    protected Cell[][] board = new Cell[BOARD_SIZE][BOARD_SIZE] ;
 
 
     protected Board(){
