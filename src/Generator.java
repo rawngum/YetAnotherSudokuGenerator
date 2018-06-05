@@ -73,7 +73,7 @@ public class Generator extends Solver{
             res = false;
         }
         for (int i = 1; i < 10; i++) {
-            if(i!= originalValue && isValid(cell.getRow(), cell.getCol(),i,this.getBoard())){
+            if(i!= originalValue && this.isValid(cell.getRow(), cell.getCol(),i)){
                 cell.setValue(i);
                 if (solveBoard(new Board(this))){
                     cell.setValue(originalValue);
